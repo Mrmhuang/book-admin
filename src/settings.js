@@ -1,11 +1,11 @@
 module.exports = {
-  title: 'Vue Element Admin',
+  title: '小慕读书',
 
   /**
    * @type {boolean} true | false
    * @description Whether show the settings right-panel
    */
-  showSettings: true,
+  showSettings: false, /* 右侧控制面板 */
 
   /**
    * @type {boolean} true | false
@@ -17,12 +17,14 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether fix the header
    */
+  /* 头部阴影 */
   fixedHeader: false,
 
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
+  /* 左上角的logo图标 */
   sidebarLogo: false,
 
   /**

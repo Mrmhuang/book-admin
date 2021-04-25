@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<style>
+  .el-table th.gutter {
+    display: table-cell !important;
+  }
+</style>
+
 <script>
 export default {
   name: 'App'

@@ -8,10 +8,12 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
+const whiteList = ['/login', '/auth-redirect','dashboard'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
+  // debugger
   // start progress bar
+  console.log("首先进来就开始验证")
   NProgress.start()
 
   // set page title
@@ -19,8 +21,10 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
+  // console.log(hasToken)
 
   if (hasToken) {
+    // debugger
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
@@ -29,8 +33,10 @@ router.beforeEach(async(to, from, next) => {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
+        console.log("有身份")
         next()
       } else {
+        console.log("没身份")
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
@@ -38,9 +44,9 @@ router.beforeEach(async(to, from, next) => {
 
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
+
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
@@ -59,9 +65,12 @@ router.beforeEach(async(to, from, next) => {
 
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
+      console.log("再进来在这")
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
+      console.log("去首页")
+      console.log(to.path)
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }
